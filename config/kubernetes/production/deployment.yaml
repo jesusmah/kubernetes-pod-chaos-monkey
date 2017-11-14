@@ -2,6 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: kubernetes-pod-chaos-monkey
+  namespace: default
 spec:
   selector:
     matchLabels:
@@ -14,5 +15,11 @@ spec:
     spec:
       containers:
       - name: kubernetes-pod-chaos-monkey
-        image: jnewland/kubernetes-pod-chaos-monkey
+        image: patrocinio/kubernetes-pod-chaos-monkey
         imagePullPolicy: Always
+        env:
+        - name: NAMESPACE
+          value: "ping-pong"
+        - name: DELAY
+          value: "30"
+

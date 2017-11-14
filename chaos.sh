@@ -6,14 +6,14 @@ set -ex
 : ${NAMESPACE:=default}
 
 while true; do
-  kubectl \
+  POD=`kubectl \
     --namespace "${NAMESPACE}" \
     -o 'jsonpath={.items[*].metadata.name}' \
     get pods | \
       tr " " "\n" | \
       shuf | \
-      head -n 1 |
-      xargs -t --no-run-if-empty \
-        kubectl --namespace "${NAMESPACE}" delete pod
+      head -n 1`
+  echo Deleting Pod $POD...
+  kubectl --namespace "${NAMESPACE}" delete pod $POD
   sleep "${DELAY}"
 done
